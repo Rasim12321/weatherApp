@@ -1,0 +1,15 @@
+.main {
+  display: flex;
+  justify-content: center;
+  background-image: url("./image/fon.jpeg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: repeat-y, repeat-y;
+  min-height: 100vh;
+}
+
+.loading {
+  width: 200px;
+  margin: auto;
+  margin-top: 100px;
+}

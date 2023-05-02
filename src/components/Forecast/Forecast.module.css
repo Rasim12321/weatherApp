@@ -1,0 +1,31 @@
+.main {
+  width: 100%;
+  display: block;
+  background: rgba(0, 0, 0, 0.5);
+  color: aliceblue;
+  text-align: center;
+  padding: 1%;
+  margin: auto;
+}
+.caption {
+  font-size: 20px;
+  margin: 5px;
+}
+.blocks {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.block {
+  border: 5px rgba(255, 255, 255, 0.046) solid;
+  padding: 2%;
+  padding-bottom: 0px;
+  margin: 10px;
+  font-size: 14px;
+  min-width: 120px;
+}
+
+.block > p {
+  margin: 5%;
+}
