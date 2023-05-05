@@ -1,15 +1,19 @@
 import { takeLatest, put, select } from "redux-saga/effects";
 import axios from "axios";
-import { setCityWeather, setLoading } from "../actions/cityWeather.action";
+import {
+  coords,
+  setCityWeather,
+  setLoading,
+} from "../actions/cityWeather.action";
 import * as toastr from "toastr";
 import { GET_CITY_WEATHER } from "../actions/actionTypes";
-
-function* cityWeatherWorker({ payload }: any): any {
+//@ts-ignore
+function* cityWeatherWorker({ payload }: object): object {
   try {
     const unit = yield select((state) => state.unit);
     yield put(setLoading(true));
     const { data }: any = yield axios.get("/weather", {
-      params: { id: payload, units: unit },
+      params: { lat: payload.lat, lon: payload.lon, units: unit },
     });
     yield put(setCityWeather(data));
     yield put(setLoading(false));

@@ -2,14 +2,14 @@ import { takeLatest, put, select } from "redux-saga/effects";
 import axios from "axios";
 import { setDailyForecast, setLoading } from "../actions/cityWeather.action";
 import * as toastr from "toastr";
-
-function* dailyForecastWorker({ payload }: any): any {
+//@ts-ignore
+function* dailyForecastWorker({ payload }: object): object {
   try {
     yield put(setLoading(true));
 
     const unit = yield select((state) => state.unit);
     const { data }: any = yield axios.get("/forecast", {
-      params: { id: payload, units: unit },
+      params: { lat: payload.lat, lon: payload.lon, units: unit },
     });
 
     yield put(setDailyForecast(data));

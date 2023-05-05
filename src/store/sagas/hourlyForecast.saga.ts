@@ -2,13 +2,13 @@ import { takeLatest, put, select } from "redux-saga/effects";
 import axios from "axios";
 import { setHourlyForecast, setLoading } from "../actions/cityWeather.action";
 import * as toastr from "toastr";
-
-function* hourlyForecastWorker({ payload }: any): any {
+//@ts-ignore
+function* hourlyForecastWorker({ payload }: object): object {
   try {
     yield put(setLoading(true));
     const unit = yield select((state) => state.unit);
     const { data }: any = yield axios.get("/forecast", {
-      params: { id: payload, units: unit, cnt: 6 },
+      params: { lat: payload.lat, lon: payload.lon, units: unit, cnt: 6 },
     });
 
     yield put(setHourlyForecast(data));

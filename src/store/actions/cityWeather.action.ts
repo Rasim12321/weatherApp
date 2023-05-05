@@ -1,8 +1,12 @@
 import { GET_CITY_WEATHER } from "./actionTypes";
 
-export const getCityWeather = (city: number) => ({
+export interface coords {
+  lat: number;
+  lon: number;
+}
+export const getCityWeather = (coords: coords | null) => ({
   type: GET_CITY_WEATHER,
-  payload: city,
+  payload: coords,
 });
 
 export const setCityWeather = (cityWeather: number) => ({
@@ -15,9 +19,9 @@ export const setLoading = (isLoading: boolean) => ({
   payload: isLoading,
 });
 
-export const getDailyForecast = (city: number) => ({
+export const getDailyForecast = (coords: coords | null) => ({
   type: "GET_DAILY_FORECAST",
-  payload: city,
+  payload: coords,
 });
 
 export const setDailyForecast = (dailyForecast: any) => ({
@@ -25,9 +29,9 @@ export const setDailyForecast = (dailyForecast: any) => ({
   payload: dailyForecast,
 });
 
-export const getHourlyForecast = (city: number) => ({
+export const getHourlyForecast = (coords: coords | null) => ({
   type: "GET_HOURLY_FORECAST",
-  payload: city,
+  payload: coords,
 });
 
 export const setHourlyForecast = (hourlyForecast: any) => ({

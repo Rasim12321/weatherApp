@@ -3,6 +3,7 @@ import SearchAutocomplete from "./components/SearchAutocomplete/SearchAutocomple
 import { useCallback, useEffect, useState } from "react";
 import { useTypedSelector } from "./hooks/useTypedSelector";
 import {
+  coords,
   getCityWeather,
   getDailyForecast,
   getHourlyForecast,
@@ -12,28 +13,42 @@ import styles from "./App.module.css";
 import Header from "./components/Header";
 import Forecast from "./components/Forecast/Forecast";
 import Loading from "./components/Loading";
-
+import { usePosition } from "./UsePosition";
 function App() {
   const dispatch = useDispatch();
-  const [currentCityId, setCurrentCityId] = useState<number | null>(null);
+  const [searchCityCoords, setsearchCityCoords] = useState<coords | null>(null);
   const unit = useTypedSelector((state) => state.unit);
   const { isLoading } = useTypedSelector((state) => state.cityWeaherData);
-  const onSearchChangeHanlder = useCallback((city: number) => {
-    setCurrentCityId(city);
+
+  const { position } = usePosition();
+  const coords: coords = {
+    lat: position?.coords.latitude,
+    lon: position?.coords.longitude,
+  };
+
+  useEffect(() => {
+    if (position) {
+      setsearchCityCoords(coords);
+      dispatch(getCityWeather(coords));
+      dispatch(getDailyForecast(coords));
+      dispatch(getHourlyForecast(coords));
+    }
+  }, [position?.coords]);
+
+  const onSearchChangeHanlder = useCallback((city: coords | null) => {
+    setsearchCityCoords(city);
     dispatch(getCityWeather(city));
     dispatch(getDailyForecast(city));
     dispatch(getHourlyForecast(city));
   }, []);
 
   useEffect(() => {
-    if (currentCityId) {
-      dispatch(getCityWeather(currentCityId));
-      dispatch(getDailyForecast(currentCityId));
-      dispatch(getHourlyForecast(currentCityId));
+    if (searchCityCoords) {
+      dispatch(getCityWeather(searchCityCoords));
+      dispatch(getDailyForecast(searchCityCoords));
+      dispatch(getHourlyForecast(searchCityCoords));
     }
   }, [unit]);
-
-  console.log(isLoading);
 
   return (
     <>

@@ -5,9 +5,10 @@ import { AsyncPaginate } from "react-select-async-paginate";
 import { OnChangeValue } from "react-select";
 import { Option } from "./types";
 import { CityData } from "../../models/city";
+import { coords } from "../../store/actions/cityWeather.action";
 
 interface Props {
-  onSearchChange: (city: number) => void;
+  onSearchChange: (city: coords | null) => void;
 }
 
 const SearchAutocomplete = ({ onSearchChange }: Props) => {
@@ -16,7 +17,8 @@ const SearchAutocomplete = ({ onSearchChange }: Props) => {
 
   const onSearchHandler = useCallback((city: OnChangeValue<Option, false>) => {
     setCity(city);
-    onSearchChange(Number(city?.value));
+    // @ts-ignore
+    onSearchChange(city?.value);
   }, []);
 
   const getCityOptions = useCallback(async (inputValue: string) => {
@@ -29,7 +31,7 @@ const SearchAutocomplete = ({ onSearchChange }: Props) => {
         options: data.list.map((city) => {
           return {
             label: `${city.name} ${city.sys.country}`,
-            value: city.id,
+            value: { lat: city.coord.lat, lon: city.coord.lon },
           };
         }),
       };
